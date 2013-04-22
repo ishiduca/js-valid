@@ -1,0 +1,22 @@
+<!doctype html>
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="./qunit/qunit-1.10.0.css" />
+<script src="./qunit/qunit-1.10.0.js"></script>
+<script src="./qunit/qunit-tap.js"></script>
+<script>
+qunitTap(
+    QUnit
+  , function () { console.log.apply(console, arguments) }
+);
+QUnit.config.autostart = false;
+</script>
+
+<script src="./js/jquery-1.9.1.min.js"></script>
+<script src="./js/require.js" data-main="./test.js"></script>
+<title>Mod Testing (use RequireJS)</title>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+</body>

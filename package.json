@@ -1,0 +1,22 @@
+{
+  "name": "js-valid",
+  "version": "0.0.0-alpha",
+  "description": "Validate objects for CommonJS and Browser",
+  "main": "valid.js",
+  "scripts": {
+    "test": "node t/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ishiduca/js-valid.git"
+  },
+  "keywords": [
+    "validation",
+    "validate",
+    "validator"
+  ],
+  "author": "ishiduca@gmail.com",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "e1c07003a65f0378323a2415d24397dc0a879228"
+}
