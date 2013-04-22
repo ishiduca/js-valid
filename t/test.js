@@ -393,30 +393,30 @@ function BASIC_TEST (Valid, opt) {
         );
     });
 
-	test(' complex', function () {
-		var validator = new Valid({
-			arr: {
-				type: Array
-			  , validate: function (v) {
-					return v > 0;
-			    }
-			}
-		});
+    test(' complex', function () {
+        var validator = new Valid({
+            arr: {
+                type: Array
+              , validate: function (v) {
+                    return v > 0;
+                }
+            }
+        });
 
-		throws(
-			function () {
-				validator.validate({
-					arr: [ 1, 2, -1, 3 ]
-				})
-		    }
-		  , /validate error/
-		);
+        throws(
+            function () {
+                validator.validate({
+                    arr: [ 1, 2, -1, 3 ]
+                })
+            }
+          , /validate error/
+        );
 
-		deepEqual(
-			validator.validate({ arr: [ 1, 2, 3, 4 ] })
-		  , { arr: [ 1, 2, 3, 4 ] }
-		);
-	});
+        deepEqual(
+            validator.validate({ arr: [ 1, 2, 3, 4 ] })
+          , { arr: [ 1, 2, 3, 4 ] }
+        );
+    });
 
 });
 
