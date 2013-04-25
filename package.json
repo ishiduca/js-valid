@@ -2,7 +2,7 @@
   "name": "js-valid",
   "version": "0.0.0-alpha",
   "description": "Validate objects for CommonJS and Browser",
-  "main": "valid.js",
+  "main": "index.js",
   "scripts": {
     "test": "node t/test.js"
   },
