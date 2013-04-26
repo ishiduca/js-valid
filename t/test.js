@@ -1,4 +1,4 @@
-! function (BASIC_TEST, NODE_TEST) {
+! function (BASIC_TEST, NODE_TEST, DOM_TEST) {
     var modulePath = {
         baseUrl: '../'
       , file: 'index'
@@ -18,6 +18,7 @@
             QUnit.start();
             BASIC_TEST(_some, {QUnit: QUnit});
             NODE_TEST( _some, {QUnit: QUnit, under: this._});
+            DOM_TEST(  _some, {QUnit: QUnit, under: this._});
         });
 
     } else
@@ -55,6 +56,7 @@
         (function (g) {
             BASIC_TEST(g.some, {QUnit: QUnit})
             NODE_TEST( g.some, {QUnit: QUnit, under: g._});
+            DOM_TEST(  g.some, {QUnit: QUnit, under: g._});
         })(this);
 
     }
@@ -387,6 +389,103 @@ function NODE_TEST (some, opt) {
           , {foo: new Date(100)}
         );
 
+    });
+}
+,
+function DOM_TEST (some, opt) {
+    var each = function (ary, cb) {
+        for (var i = 0, len = ary.length; i < len; i++) {
+            if (cb(ary[i], i) === true) return [ ary[i], i ];
+        }
+        return null;
+    };
+
+    module('form data validate', {
+        setup: function () {
+            var app = this.app = {};
+            app.rule = new some.Validator({
+                email: {
+                    type: opt.under.isString
+                  , required: true
+                  , validate: /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/
+                }
+              , pwd: {
+                    type: opt.under.isString
+                  , required: true
+                  , validate: /^\w{4,36}$/
+                }
+              , newAccount: {
+                    type: opt.under.isBoolean
+                  , default: false
+                }
+            });
+            app.getQuery = function () {
+                return {
+                   email: $('#email').val()
+                 , pwd:   $('#pwd').val()
+                 , newAccount: $('#create').is(':checked')
+                };
+            };
+            app.setForm = function (email, pwd, _create) {
+                $('#email').val(email);
+                $('#pwd').val(pwd);
+                _create === true && $('#create').attr('checked', true);
+            };
+        }
+      , teardown: function () {
+            $('#emai').val('');
+            $('#pwd').val('');
+            $('#create').attr('checked', false);
+        }
+    });
+    test('form validate - cases error', function () {
+        var app = this.app;
+
+        var errors = [
+            /ValidateError.+email/
+          , /ValidateError.+pwd/
+          , /ValidateError.+email/
+        ]
+        , count = 0;
+
+        $('#F').on('submit', function () {
+            throws(
+                function () { app.rule.validate(app.getQuery()); }
+              , errors[count++]
+            );
+            opt.QUnit.start();
+        });
+
+        each([
+            [ '', 'foofoo' ]
+          , [ 'hoge@ho.ge', '' ]
+          , [ 'hoge_ho.ge', 'bobooo' ]
+        ]
+        , function (q) {
+            app.setForm.apply(app, q);
+            opt.QUnit.stop();
+            $('#F').submit();
+        });
+    });
+    test('form validate - cases ok', function () {
+        var app = this.app;
+
+        $('#F').on('submit', function () {
+            var validated = app.rule.validate(app.getQuery());
+            ok(validated);
+
+            opt.QUnit.start();
+        });
+
+        each([
+            [ 'foo@bar.org', 'hohohoho' ]
+          , [ 'foo@bar.org', 'hohohoho', true ]
+        ]
+        , function (q) {
+            app.setForm.apply(app, q);
+            opt.QUnit.stop();
+            $('#F').submit();
+        });
     });
 }
 

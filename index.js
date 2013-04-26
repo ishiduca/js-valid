@@ -234,13 +234,13 @@
             });
 
 //            try {
-//				this.validate(queryObj);
-//			} catch (e) {
-//				throw e;
-//			}
+//                this.validate(queryObj);
+//            } catch (e) {
+//                throw e;
+//            }
 //
 //            return queryObj;
-			return this.validate(queryObj);
+            return this.validate(queryObj);
         };
 
         return some;

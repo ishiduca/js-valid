@@ -18,5 +18,21 @@ QUnit.config.autostart = false;
 </head>
 <body>
 <div id="qunit"></div>
-<div id="qunit-fixture"></div>
+<div id="qunit-fixture">
+
+<div class="container">
+  <form id="F" action="javascript:void(0)">
+    <div><input type="text" id="email"
+      class="input-block-level" plaseholder="Email address" /></div>
+    <div><input type="password" id="pwd"
+      class="input-block-level" plaseholder="password" /></div>
+    <div><label class="checkbox">
+      <input type="checkbox" value="create" />
+        create new account!</label></div>
+    <div><button type="submit"
+      class="btn btn-large btn-primary">Sign in</button></div>
+  </form>
+</div>
+
+</div>
 </body>
