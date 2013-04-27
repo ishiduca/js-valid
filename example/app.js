@@ -6,6 +6,14 @@ var fs   = require('fs');
 var schemas   = require(path.join( __dirname, './public/js/schemas'));
 var Validator = require(path.join( __dirname, './public/js/js-valid/index')).Validator;
 
+var exts = {
+    html: 'text/html'
+  , txt:  'text/plain'
+  , css:  'text/css'
+  , js: 'application/javascript'
+  , json: 'application/json'
+};
+
 var onError = function (res, pathname) {
     var is404 = {
         error: 404
@@ -25,8 +33,8 @@ var sendfile = function (res, filepath, pathname) {
         console.log(e);
     })
     .once('data', function () {
-        var ext = /.\.js$/.test(filepath) ? 'text/javascript' : 'text/html';
-        res.writeHead(200, {'content-type': ext});
+        var ext = filepath.slice(filepath.lastIndexOf('.') + 1);
+        res.writeHead(200, {'content-type': exts[ext]});
     })
     .once('end', function () {
         console.log('sendfile "%s" -> "%s"', pathname, filepath);
@@ -37,7 +45,7 @@ var sendfile = function (res, filepath, pathname) {
 
 var r = {
     routes: {
-        get: {}
+        get:  {}
       , post: {}
     }
   , statics: [ '/js/' ]
@@ -48,12 +56,7 @@ var r = {
         r.routes[method][pathname] = cb;
     };
 });
-//r.get = function (pathname, cb) {
-//    this.routes.get[pathname] = cb;
-//};
-//r.post = function (pathname, cb) {
-//    this.routes.post[pathname] = cb;
-//};
+
 r.route = function (res, method, pathname, data) {
     if (this.statics.some(function (staticDir) {
         return pathname.slice(0, staticDir.length) === staticDir;
@@ -62,8 +65,9 @@ r.route = function (res, method, pathname, data) {
           , path.join(__dirname, 'public', pathname)
           , pathname);
 
-    if ('function' !== typeof this.routes[method][pathname])
+    if ('function' !== typeof this.routes[method][pathname]) {
         return onError(res, pathname);
+    }
 
     this.routes[method][pathname].apply(res, [ data ]);
 };
@@ -93,7 +97,6 @@ r.post('/signin', function (data) {
 
 
 var server = http.createServer(function (req, res) {
-
     var data = '';
     req.on('data', function (chunk) { data += chunk; });
     req.on('end', function () {
@@ -108,7 +111,4 @@ var server = http.createServer(function (req, res) {
 server.listen(8013, function () {
     console.log('server start to listen on port "%d"', 8013);
 });
-
-
-
 
