@@ -118,12 +118,14 @@
                 return helper(option.validate, val);
             };
 
-            'function' === typeof option.serialize &&
+            isFunc(option.serialize) &&
               (validator.serializes[optionKey] = option.serialize);
 
-            'function' === typeof option.deserialize &&
+            isFunc(option.deserialize) &&
               (validator.deserializes[optionKey] = option.deserialize);
         };
+        some.Validator.parse     = JSON.parse;
+        some.Validator.stringify = JSON.stringify;
 
         var vp = some.Validator.prototype;
 
@@ -197,32 +199,23 @@
         };
 
         vp.stringify = function (query, serializer) {
-            isFunc(serializer) || (serializer = JSON.stringify);
+            isFunc(serializer) || (serializer = some.Validator.stringify);
 
-            var newQuery;
-            try {
-                newQuery = this.validate(query);
+            var newQuery = this.validate(query);
 
-                search(this.serializes, function (key, cast) {
-                    if (key in newQuery) {
-                        newQuery[key] = cast(newQuery[key]);
-                    }
-                });
-            } catch (e) {
-                throw e;
-            }
+            search(this.serializes, function (key, cast) {
+                if (key in newQuery) {
+                    newQuery[key] = cast(newQuery[key]);
+                }
+            });
 
             return serializer(newQuery);
         };
 
         vp.parse = function (queryStr, deserializer) {
-            isFunc(deserializer) || (deserializer = JSON.parse);
+            isFunc(deserializer) || (deserializer = some.Validator.parse);
 
-            var queryObj; try {
-                queryObj = deserializer(queryStr);
-            } catch (e) {
-                throw e;
-            }
+            var queryObj = deserializer(queryStr);
 
             if (! isObj(queryObj)) throw new TypeError(
               'ParseError: "query" can not parse');
@@ -233,13 +226,6 @@
                 }
             });
 
-//            try {
-//                this.validate(queryObj);
-//            } catch (e) {
-//                throw e;
-//            }
-//
-//            return queryObj;
             return this.validate(queryObj);
         };
 
