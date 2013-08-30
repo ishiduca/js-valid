@@ -1,0 +1,29 @@
+<!doctype html>
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="./qunit/qunit-1.10.0.css" />
+<script src="./qunit/qunit-1.10.0.js"></script>
+<script src="./qunit/qunit-tap.js"></script>
+<script>
+qunitTap(QUnit, function () { console.log.apply(console, arguments) });
+//QUnit.config.autostart = false;
+var is = QUnit.strictEqual;
+</script>
+
+<script src="./js/jquery-1.9.1.min.js"></script>
+<!-- テストを受けるモジュール -->
+<script src="/lib/valid.js"></script>
+<!-- テストコードを記載した .jsファイル -->
+<script src="./00.js"></script>
+<script src="./01.js"></script>
+<script src="./02.js"></script>
+<script src="./03.js"></script>
+<script src="./worker/worker.js"></script>
+<title>Testing load modules - "QUnit", "Valid"</title>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+</body>
+
+

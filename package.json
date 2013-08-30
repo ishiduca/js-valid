@@ -1,11 +1,8 @@
 {
   "name": "js-valid",
-  "version": "0.0.0-alpha",
+  "version": "0.0.2",
   "description": "Validate objects for CommonJS and Browser",
-  "main": "index.js",
-  "scripts": {
-    "test": "node t/test.js"
-  },
+  "main": "./lib/valid.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/ishiduca/js-valid.git"
