@@ -1,0 +1,28 @@
+{
+  "name": "js-valid",
+  "version": "0.0.2",
+  "homepage": "https://github.com/ishiduca/js-valid",
+  "authors": [
+    "ishiduca <ishiduca@gmail.com>"
+  ],
+  "description": "Validate objects",
+  "main": "./lib/valid.js",
+  "keywords": [
+    "validate",
+    "validator",
+    "validation"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "t",
+    "example",
+    "package.*",
+    "test.sh",
+    "run-phantom.js"
+  ]
+}
