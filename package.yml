@@ -1,0 +1,16 @@
+---
+author: ishiduca@gmail.com
+description: Validate objects for CommonJS and Browser
+gitHead: e1c07003a65f0378323a2415d24397dc0a879228
+keywords:
+  - validation
+  - validate
+  - validator
+license: MIT
+main: ./lib/valid.js
+name: js-valid
+readmeFilename: README.md
+repository:
+  type: git
+  url: git://github.com/ishiduca/js-valid.git
+version: 0.0.3
